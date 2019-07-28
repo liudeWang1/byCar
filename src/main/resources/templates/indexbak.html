@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>汽车导购</title>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+
+
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+        layui.use('form', function () {
+            var form = layui.form;
+        });
+
+        /*        layui.use('form', function () {
+                    var form = layui.form;
+
+                    form.on('submit(formDemo)', function (data) {
+                        $.ajax({
+                            url: "/car/search",
+                            type: "POST",
+                            data: {
+                                minPrice: $("#minPrice").val(),
+                                maxPrice: $("#maxPrice").val(),
+                                oil: $("input[name='oil'][checked]").val(),
+                                space: $("input[name='space'][checked]").val(),
+                                hold: $("input[name='hold'][checked]").val(),
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                /!*$.each(msg, function (index, item) {
+                                    $("#list").html($("#list").html() +
+                                        "<tr><td>" + item.name + "</td>" +
+                                        "<td>" + item.name + "</td>" +
+                                        "<td>" + item.price + "</td>" +
+                                        "<td><a>" + "详情" + "</a></td></tr>");
+                                });*!/
+
+
+                                alert("1111");
+
+                            },
+                            error: function () {
+                                alert("2222222")
+                                layer.closeAll();
+                            }
+                        });
+                        return false;
+                    })
+                    //各种基于事件的操作，下面会有进一步介绍
+                });*/
+
+        $('#btn').click(function () {
+            var url = '/car/search';
+            $('#div1').load(url);
+
+        });
+
+
+    </script>
+
+</head>
+<body>
+<!--导航条部分-->
+<div>
+    <ul class="layui-nav" lay-filter="">
+        <li class="layui-nav-item"><a href="">首页</a></li>
+        <li class="layui-nav-item layui-this"><a href="">选车</a></li>
+        <li class="layui-nav-item"><a href="">汽车知识大讲堂</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">解决方案</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a href="">移动模块</a></dd>
+                <dd><a href="">后台模版</a></dd>
+                <dd><a href="">电商平台</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item" style="width: 16%;margin-right: 10%"><a href="">联系我们</a></li>
+    </ul>
+</div>
+
+<!--选项部分-->
+<form>
+    <div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">节油性：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="oil" value="0" title="不限" checked> 不限
+                <input type="radio" name="oil" value="1" title="节油"> 节油
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">车内空间：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="space" value="0" title="不限" checked> 不限
+                <input type="radio" name="space" value="1" title="大"> 大
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">操控性：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="hold" value="0" title="不限" checked> 不限
+                <input type="radio" name="hold" value="1" title="操控好"> 操控好
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">价格：</label>
+            <div class="layui-input-block">
+                <input type="text" name="minPrice" placeholder="请输入最低价" autocomplete="off" class="layui-input"
+                       style="width: 100px;display: inline">-
+                <input type="text" name="maxPrice" placeholder="请输入最高价" autocomplete="off" class="layui-input"
+                       style="width: 100px;display: inline">万元
+                <button class="layui-btn" style="margin-left: 150px" id="" lay-submit >确定</button>
+            </div>
+        </div>
+
+    </div>
+
+
+</form>
+
+<!--搜索结果部分-->
+<div id="div1" th:fragment="div1">
+    <div th:if="${list} ne null">
+        <ul th:each="a : ${list}">
+            <li th:text="${a.name}"></li>
+        </ul>
+    </div>
+</div>
+<button id="btn">sx</button>
+</body>
+</html>

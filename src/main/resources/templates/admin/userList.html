@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+</head>
+<body>
+
+<div  style="text-align: center;margin:0 auto;width: 900px">
+    <table class="layui-table" width="100%" cellspacing="1" cellpadding="0">
+
+        <thead>
+        <tr>
+            <th>昵称</th>
+            <th>手机号</th>
+            <th>角色</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userList}" style="margin-top: 20px">
+            <td th:text="${user.nickname}"></td>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.role}== 0?'普通用户':'管理员'"></td>
+            <td>
+                <div class="layui-btn-group">
+                    <a th:href="@{/admin/user_toUpdate/}+${user.id}">
+                        <button class="layui-btn layui-btn-sm">
+                            <i class="layui-icon">&#xe642;</i>
+                        </button>
+                    </a>
+
+                    <a th:href="@{/admin/delete/}+${user.id}">
+                        <button class="layui-btn layui-btn-sm">
+                            <i class="layui-icon">&#xe640;</i>
+                        </button>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>上传图片</title>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+<script th:src="@{/layui/layui.js}" rel="script"></script>
+<body>
+
+<!--logo-->
+<div style="width: 100%;height: 100px">
+    <div style="margin-left: 100px;padding-top: 25px">
+        <img src="http://www.carguide.com.cn/statics/images/pc/logo.png">
+    </div>
+</div>
+<!--导航条部分-->
+<div>
+    <ul class="layui-nav " lay-filter="">
+        <li class="layui-nav-item"><a href="/car/index">首页</a></li>
+        <li class="layui-nav-item layui-this"><a href="/car/to_list">选车</a></li>
+        <li class="layui-nav-item"><a href="/car/calcq">购车计算器</a></li>
+        <li class="layui-nav-item"><a href="/essay/list">汽车知识大讲堂</a></li>
+        <li class="layui-nav-item" style="width: 16%;margin-right: 10%"><a href="/car/about">联系我们</a></li>
+    </ul>
+</div>
+
+<div style="text-align: center;margin:0 auto;width: 900px;height: 240px;margin-top: 50px;">
+    <img style="width: 440px;height: 300px;float: left" th:src="${car.image}">
+</div>
+<div style="text-align: center;margin:0 auto;width: 900px">
+
+    <table class="layui-table">
+        <colgroup>
+            <col width="300">
+            <col width="300">
+            <col width="300">
+            <col width="300">
+        </colgroup>
+        <thead>
+        </thead>
+        <tbody>
+
+        <!--th:text="${car.price}"-->
+        <tr>
+            <td>厂家</td>
+            <td th:text="${car.firm}"></td>
+            <td>车名</td>
+            <td th:text="${car.name}"></td>
+        </tr>
+        <tr>
+            <td>年份</td>
+            <td th:text="${car.year}+年"></td>
+            <td>排放标准</td>
+            <td th:text="${car.emissions}"></td>
+        </tr>
+        <tr>
+            <td>车身结构</td>
+            <td th:text="${car.structure}"></td>
+            <td>车身尺寸</td>
+            <td th:text="${car.size}"></td>
+        </tr>
+        <tr>
+            <td>发动机参数</td>
+            <td th:text="${car.engine}"></td>
+            <td>马力</td>
+            <td th:text="${car.horsepower}+匹"></td>
+        </tr>
+        <tr>
+            <td>扭矩</td>
+            <td th:text="${car.torque}+N.m"></td>
+            <td>变速箱</td>
+            <td th:text="${car.gearbox}"></td>
+        </tr>
+        <tr>
+            <td>油耗</td>
+            <td th:text="${car.oil}+升"></td>
+            <td>价格</td>
+            <td th:text="${car.price}+万元"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

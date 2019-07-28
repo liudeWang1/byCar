@@ -1,0 +1,38 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>上传图片</title>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+<script th:src="@{/layui/layui.js}" rel="script"></script>
+<body>
+
+<!--logo-->
+<div style="width: 100%;height: 100px">
+    <div style="margin-left: 100px;padding-top: 25px">
+        <img src="http://www.carguide.com.cn/statics/images/pc/logo.png">
+    </div>
+</div>
+<!--导航条部分-->
+<div>
+    <ul class="layui-nav " lay-filter="" style="padding-left: 15%">
+        <li class="layui-nav-item"><a href="/car/index">首页</a></li>
+        <li class="layui-nav-item "><a href="/car/to_list">选车</a></li>
+        <li class="layui-nav-item "><a href="/car/calcq">购车计算器</a></li>
+        <li class="layui-nav-item layui-this"><a href="/essay/list">汽车知识大讲堂</a></li>
+        <li class="layui-nav-item" style="width: 16%;margin-right: 10%"><a href="/car/about">联系我们</a></li>
+    </ul>
+</div>
+
+
+<div style="margin: 0px 10% 0px 10%">
+    <p style="font-size: 30px;text-align: center" th:text="${essay.title}"></p><br><br>
+    <p id="cont" th:utext="${essay.content}">
+
+    </p>
+</div>
+
+
+</body>
+</html>

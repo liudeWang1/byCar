@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>汽车导购网站</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+
+
+    <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/list.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/jquery-ui-1.12.1/jquery-ui.min.css}" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" th:src="@{/jquery-ui-1.12.1/jquery-ui.min.js}"></script>
+
+
+</head>
+<body>
+<!--logo-->
+<div style="width: 100%;height: 100px">
+    <div style="margin-left: 100px;padding-top: 25px">
+        <img src="http://www.carguide.com.cn/statics/images/pc/logo.png">
+    </div>
+</div>
+<!--导航条部分-->
+<div>
+    <ul class="layui-nav " lay-filter="">
+        <li class="layui-nav-item layui-this"><a href="">首页</a></li>
+        <li class="layui-nav-item "><a href="/car/query?&carSpace=0&carOil=0&carHold=0&price=0&energy=22&structure=11&keyword=null">选车</a></li>
+        <li class="layui-nav-item"><a href="/car/calcq">购车计算器</a></li>
+        <li class="layui-nav-item"><a href="/essay/list">汽车知识大讲堂</a></li>
+        <li class="layui-nav-item" style="width: 16%;margin-right: 10%"><a href="">联系我们</a></li>
+    </ul>
+</div>
+
+<!--轮播-->
+<div class="layui-carousel" id="test1">
+    <div carousel-item>
+        <div><a th:href="@{/car/to_list}"><img style="width: 100%;height: 100%" th:src="@{/img/maza.jpg}"></a></div>
+        <div><a th:href="@{/car/to_list}"><img style="width: 100%;height: 100%" th:src="@{/img/luxs.jpg}"></a></div>
+        <div><a th:href="@{/car/to_list}"><img style="width: 100%;height: 100%" th:src="@{/img/bmw3.jpg}"></a></div>
+        <div><a th:href="@{/car/to_list}"><img style="width: 100%;height: 100%" th:src="@{/img/aodi.jpg}"></a></div>
+        <div><a th:href="@{/car/to_list}"><img style="width: 100%;height: 100%" th:src="@{/img/ouge.jpg}"></a></div>
+
+    </div>
+</div>
+
+
+
+</body>
+<script>
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            /*,width: '100%' //设置容器宽度
+             ,height:'600px'*/
+            ,full: true
+            ,arrow: 'hover' //始终显示箭头
+            ,anim: 'default' //切换动画方式
+            ,indicator: 'none'
+        });
+    });
+</script>
+
+</html>

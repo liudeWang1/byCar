@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Summernote</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+
+    <script type="text/javascript" src="/layer/layer.js" }></script>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+
+</head>
+<body>
+<form id="essayForm">
+<!--    <div>
+        标题：<input type="text" name="title" id="title" lay-filter="subm"/>
+    </div>-->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title"  id="title" placeholder="请输入文章标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div id="summernote">
+
+    </div>
+    <input type="hidden" name="content" lay-filter="subm"/>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn"  lay-submit  lay-filter="subm">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            tabsize: 2,
+            height: 300
+        });
+    });
+
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+    layui.use('form', function(){
+        var form = layui.form;
+
+        form.on('submit(subm)', function(data){
+            $("input[name='content']").val($('#summernote').summernote('code'));
+            $.ajax({
+                url: "/essay/addEssay",
+                type: "POST",
+                data:{
+                    title:$("#title").val(),
+                    content: $("input[name='content']").val(),
+                },
+                success:function(data){
+                    layer.closeAll();
+                    console.log(data);
+                        layer.msg("新增成功");
+                        window.location.href="/admin/essay_list";
+                },
+                error:function(){
+                    layer.closeAll();
+                }
+            });
+            return false;
+        })
+        //各种基于事件的操作
+    });
+</script>
+</body>
+</html>

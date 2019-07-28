@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+</head>
+<body>
+
+<div style="text-align: center;margin:0 auto;width: 900px">
+    <table class="layui-table" width="100%" cellspacing="1" cellpadding="0">
+
+        <thead>
+        <tr>
+            <th>车名</th>
+            <th>发动机</th>
+            <th>马力</th>
+            <th>变速箱</th>
+            <th>车身结构</th>
+            <th>排放</th>
+            <th>长宽高</th>
+            <th>价格</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${carList}" style="margin-top: 20px">
+            <td th:text="${car.name}"></td>
+            <td th:text="${car.engine}"></td>
+            <td th:text="${car.horsepower}+匹"></td>
+            <td th:text="${car.gearbox}"></td>
+            <td th:text="${car.structure}"></td>
+            <td th:text="${car.emissions}"></td>
+            <td th:text="${car.size}"></td>
+            <td th:text="${car.price}+万元"></td>
+            <td>
+                <div class="layui-btn-group">
+                    <a th:href="@{/car/to_update/}+${car.id}">
+                        <button class="layui-btn layui-btn-sm">
+                            <i class="layui-icon">&#xe642;</i>
+                        </button>
+                    </a>
+
+                    <a th:href="@{/car/delete/}+${car.id}">
+                        <button class="layui-btn layui-btn-sm">
+                            <i class="layui-icon">&#xe640;</i>
+                        </button>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+<script>
+</script>
+</html>

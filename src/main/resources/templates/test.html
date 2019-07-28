@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>汽车导购网站</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+
+
+    <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/list.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/jquery-ui-1.12.1/jquery-ui.min.css}" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" th:src="@{/jquery-ui-1.12.1/jquery-ui.min.js}"></script>
+
+
+</head>
+<body>
+<!--logo-->
+<div style="width: 100%;height: 100px">
+    <div style="margin-left: 100px;padding-top: 25px">
+        <img src="http://www.carguide.com.cn/statics/images/pc/logo.png">
+    </div>
+</div>
+<!--导航条部分-->
+<div>
+    <ul class="layui-nav " lay-filter="">
+        <li class="layui-nav-item"><a href="">首页</a></li>
+        <li class="layui-nav-item layui-this"><a href="/car/query?&carSpace=0&carOil=0&carHold=0&price=0&energy=22&structure=11&keyword=null">选车</a></li>
+        <li class="layui-nav-item"><a href="/car/calcq">购车计算器</a></li>
+        <li class="layui-nav-item"><a href="/essay/list">汽车知识大讲堂</a></li>
+        <li class="layui-nav-item" style="width: 16%;margin-right: 10%"><a href="">联系我们</a></li>
+    </ul>
+</div>
+
+
+<div class="searchs">
+    <div class="wrapper">
+        <div class="fl" log-mod="search">
+            <div class="search-txt">
+                <form class="clear" id="searchForm" action="#" method="get">
+                    <div class="search-tab">
+                        <i class="icon" data-bl="switch"></i>
+                        <div data-bl="switch" class="check">关键词</div>
+                        <div class="txt-search">
+                            <input class="left txt" name="keyword" autocomplete="off"
+                                   placeholder="如汽车名、运动性等" id="keyword-box"/>
+                        </div>
+                    </div>
+                    <button type="submit" class="act-search btn home-ico ico-search LOGCLICKEVTID">
+                        搜索
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="wrapper">
+    <div class="filter-box">
+        <div class="bd" id="filter-options">
+            <dl class="dl-lst clear">
+                <dt>空间：</dt>
+                <dd data-index="3">
+                    <div class="option-list space-select">
+
+                        <a data-bind="0" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('carSpace', 0)">不限</a>
+                        <a data-bind="6" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('carSpace', 6)">空间大</a>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="dl-lst clear">
+                <dt>油耗：</dt>
+                <dd data-index="3">
+                    <div class="option-list oil-select">
+
+                        <a data-bind="0" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('carOil', 0)">不限</a>
+                        <a data-bind="6" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('carOil', 6)">省油</a>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="dl-lst clear">
+                <dt>操控：</dt>
+                <dd data-index="3">
+                    <div class="option-list hold-select">
+
+                        <a data-bind="0" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('carHold', 0)">不限</a>
+                        <a data-bind="6" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('carHold', 6)">运动</a>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="dl-lst clear">
+                <dt>车型：</dt>
+                <dd data-index="3">
+                    <div class="option-list energy-select">
+                        <!--th:class="${searchBody.layout == 0} ? 'on' : ''"-->
+                        <a data-bind="0" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('energy', '22')">不限</a>
+                        <a data-bind="汽油" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('energy', '汽油')">汽油</a>
+                        <a data-bind="柴油" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('energy', '柴油')">柴油</a>
+                        <a data-bind="油电混动" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('energy', '油电混动')">油电混动</a>
+                        <a data-bind="纯电动" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('energy', '纯电动')">纯电动</a>
+                        <a data-bind="插电混动" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('energy', '插电混动')">插电混动</a>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="dl-lst clear">
+                <dt>车型：</dt>
+                <dd data-index="3">
+                    <div class="option-list structure-select">
+                        <!--th:class="${searchBody.layout == 0} ? 'on' : ''"-->
+                        <a data-bind="0" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('structure', '11')">不限</a>
+                        <a data-bind="SUV" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('structure', 'SUV')">SUV</a>
+                        <a data-bind="三厢车" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('structure', '三厢车')">三厢车</a>
+                        <a data-bind="两厢车" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('structure', '两厢车')">两厢车</a>
+                        <a data-bind="MPV" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('structure', 'MPV')">MPV</a>
+                        <a data-bind="皮卡" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('structure', '皮卡')">皮卡</a>
+                        <a data-bind="跑车" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('structure', '跑车')">跑车</a>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="dl-lst clear">
+                <dt>价格：</dt>
+                <dd data-index="3">
+                    <div class="option-list price-select">
+                        <!--th:class="${searchBody.layout == 0} ? 'on' : ''"-->
+                        <a data-bind="0" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '0')">不限</a>
+                        <a data-bind="SUV" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '8')">8万以下</a>
+                        <a data-bind="三厢车" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '12')">8-12万</a>
+                        <a data-bind="两厢车" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '18')">12-18万</a>
+                        <a data-bind="MPV" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '25')">18-25万</a>
+                        <a data-bind="皮卡" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '40')">25-40万</a>
+                        <a data-bind="跑车" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '80')">40-80万</a>
+                        <a data-bind="跑车" href="javascript:void(0);"
+                           onclick="changeSimpleCondition('price', '1000')">80万以上</a>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<!--搜索框和条件选择-->
+
+<div style="margin-left: 80px;margin-right: 80px">
+
+    <!--单选框部分-->
+
+    <!--<div style="margin-bottom: 50px;margin-top: 20px">-->
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">节油性：</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<input type="radio" name="oil" value="0" title="不限" checked> 不限-->
+                <!--<input type="radio" name="oil" value="1" title="节油"> 节油-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">车内空间：</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<input type="radio" name="space" value="0" title="不限" checked> 不限-->
+                <!--<input type="radio" name="space" value="1" title="大"> 大-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">操控性：</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<input type="radio" name="hold" value="0" title="不限" checked> 不限-->
+                <!--<input type="radio" name="hold" value="1" title="操控好"> 操控好-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">价格：</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<input type="text" name="minPrice" id="minPrice" placeholder="请输入最低价" autocomplete="off"-->
+                       <!--class="layui-input"-->
+                       <!--style="width: 100px;display: inline">- -->
+                <!--<input type="text" name="maxPrice" id="maxPrice" placeholder="请输入最高价" autocomplete="off"-->
+                       <!--class="layui-input"-->
+                       <!--style="width: 100px;display: inline">万元-->
+                <!--<button class="layui-btn layui-btn-normal" style="margin-left: 150px" onClick="localRefresh()">确定-->
+                <!--</button>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+
+    <!-- 需要局部刷新的部分，设置了th:fragment="table_refresh" -->
+    <div id="table_refresh" style="text-align: center;margin:0 auto;width: 1000px" th:fragment="table_refresh">
+
+
+        <table width="100%" cellspacing="1" cellpadding="0" style="border-collapse:separate; border-spacing:0px 10px;">
+
+            <tr class="layui-card" th:each="car : ${list}" style="margin-top: 20px">
+                <td><img style="width: 110px;height: 80px" th:src="${car.image}"></img></td>
+                <td th:text="${car.firm}"></td>
+                <td th:text="${car.name}"></td>
+                <td th:text="${car.price}+万元"></td>
+                <td><a th:href="@{/car/detail/}+${car.id}">参数详情</a></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</body>
+
+<!--<script type='text/javascript'>-->
+    <!--(function(m, ei, q, i, a, j, s) {-->
+        <!--m[i] = m[i] || function() {-->
+            <!--(m[i].a = m[i].a || []).push(arguments)-->
+        <!--};-->
+        <!--j = ei.createElement(q),-->
+            <!--s = ei.getElementsByTagName(q)[0];-->
+        <!--j.async = true;-->
+        <!--j.charset = 'UTF-8';-->
+        <!--j.src = 'https://static.meiqia.com/dist/meiqia.js?_=t';-->
+        <!--s.parentNode.insertBefore(j, s);-->
+    <!--})(window, document, 'script', '_MEIQIA');-->
+    <!--_MEIQIA('entId', 75794);-->
+<!--</script>-->
+
+<script>
+    /*function localRefresh() {
+        // 装载局部刷新返回的页面
+        $('#table_refresh').load("/car/search");
+    }*/
+
+    function localRefresh() {
+        var url = '/car/search';
+        var oil = $("input[name='oil']:checked").val();
+        var space = $("input[name='space']:checked").val();
+        var hold = $("input[name='hold']:checked").val();
+        var minP = $("#minPrice").val();
+        var maxP = $("#maxPrice").val();
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {
+                oil: oil,
+                space: space,
+                hold: hold,
+                minPrice: minP,
+                maxPrice: maxP
+            },
+            success: function (data) {
+                $('#table_refresh').html(data);
+            }
+        })
+    }
+
+
+    var data = {};
+
+    function locate_url() {
+        var keywords = $('#keyword-box').val();
+        if (typeof(keywords) !== 'undefined' && keywords !== null && keywords.length > 0) {
+            data.keywords = keywords;
+        }
+
+        var target = '/car/query?&';
+        $.each(data, function (key, value) {
+            target += (key + '=' + value + '&');
+        });
+        return target;
+    }
+
+    function changeSimpleCondition(key, value) {
+        switch (key) {
+            case '*':
+                delete data[key];
+                break;
+            default:
+                data[key] = value;
+        }
+        console.log("aaaaaaaaaa");
+        window.location.href = locate_url();
+    }
+
+    $(function () {
+        data.carSpace = [[${search.carSpace}]];
+        data.carOil = [[${search.carOil}]];
+        data.carHold = [[${search.carHold}]];
+        data.energy = [[${search.energy}]];
+        data.structure = [[${search.structure}]];
+        data.price = [[${search.price}]];
+
+
+        $('.space-select a[data-bind="' + [[${search.carSpace}]] + '"]').addClass('on');
+        $('.oil-select a[data-bind="' + [[${search.carOil}]] + '"]').addClass('on');
+        $('.hold-select a[data-bind="' + [[${search.carHold}]] + '"]').addClass('on');
+        $('.energy-select a[data-bind="' + [[${search.energy}]] + '"]').addClass('on');
+        $('.structure-select a[data-bind="' + [[${search.structure}]] + '"]').addClass('on');
+        $('.price-select a[data-bind="' + [[${search.price}]] + '"]').addClass('on');
+
+
+
+
+        $('#searchForm').submit(function () {
+            window.location.href = locate_url();
+            return false;
+        });
+
+        $('#keyword-box').autocomplete({
+            minLength: 2, // 最小字符数，默认1
+            delay: 300, // 延迟加载300ms
+            source: function (request, response) { // 数据源
+                $.ajax({
+                    url: '/car/query/autocomplete?prefix=' + request.term,
+                    success: function (res) {
+                        if (res.code === 200) {
+                            response(res.data);
+                        }
+                    }
+                });
+            },
+            select: function (event, ui) { // 选中事件
+                $('#keyword-box').text(ui.item.value);
+                window.location.href = locate_url();
+            }
+        });
+
+    });
+
+
+</script>
+
+</html>

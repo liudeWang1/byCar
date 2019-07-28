@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>文章列表</title>
+
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+</head>
+<body>
+<!--logo-->
+<div style="width: 100%;height: 100px">
+    <div style="margin-left: 100px;padding-top: 25px">
+        <img src="http://www.carguide.com.cn/statics/images/pc/logo.png">
+    </div>
+</div>
+
+<!--导航条部分-->
+<div>
+    <ul class="layui-nav " lay-filter="" style="padding-left: 15%">
+        <li class="layui-nav-item"><a href="/car/index">首页</a></li>
+        <li class="layui-nav-item "><a href="/car/to_list">选车</a></li>
+        <li class="layui-nav-item "><a href="/car/calcq">购车计算器</a></li>
+        <li class="layui-nav-item layui-this"><a href="/essay/list">汽车知识大讲堂</a></li>
+        <li class="layui-nav-item" style="width: 16%;margin-right: 10%"><a href="/car/about">联系我们</a></li>
+    </ul>
+</div>
+
+
+<div style="margin: 5% 15% 0% 15% ">
+
+    <div style="margin-left: 150px">
+        <img style="width: 100px;height: 100px" th:src="@{/img/jsjq.png}">
+        <img style="width: 100px;height: 100px" th:src="@{/img/ltzs.png}">
+        <img style="width: 100px;height: 100px" th:src="@{/img/ycaq.png}">
+        <img style="width: 100px;height: 100px" th:src="@{/img/qcbx.png}">
+        <img style="width: 100px;height: 100px" th:src="@{/img/byzs.png}">
+        <img style="width: 100px;height: 100px" th:src="@{/img/jtwz.png}">
+        <img style="width: 100px;height: 100px" th:src="@{/img/sgcl.png}">
+    </div>
+
+    <!-- 需要局部刷新的部分，设置了th:fragment="table_refresh" -->
+    <div id="table_refresh" style="text-align: center;margin:0 auto;width: 1000px" th:fragment="table_refresh">
+
+
+        <table width="100%" cellspacing="1" cellpadding="0" style="border-collapse:separate; border-spacing:0px 10px;">
+
+            <tr class="layui-card" th:each="essay : ${essayList}" style="margin-top: 20px;height: 60px">
+                <td th:text="${essay.title}"></td>
+                <td><a th:href="@{/essay/detail/}+${essay.id}">文章详情</a></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+<!--
+<div  style="text-align: center;margin:0 auto;width: 900px">
+
+    <table class="layui-table" width="100%" cellspacing="1" cellpadding="0" >
+
+        <thead>
+        <tr>
+            <th>标题</th>
+            <th>时间</th>
+        </tr>
+        </thead>
+        <tr th:each="essay : ${essayList}" style="margin-top: 20px">
+            <td th:text="${essay.title}"></td>
+            <td><a th:href="@{/essay/detail/}+${essay.id}">文章详情</a></td>
+        </tr>
+    </table>
+</div>-->
+
+</body>
+</html>

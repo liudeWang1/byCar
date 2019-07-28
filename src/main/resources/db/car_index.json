@@ -1,0 +1,39 @@
+{
+  "settings": {
+    "number_of_replicas": 0,
+    "number_of_shards": 5
+  },
+  "mappings":{
+    "car":{
+      "properties": {
+        "carId":{
+          "type" : "integer"
+        },
+        "name":{
+          "type" : "keyword"
+        },
+        "firm":{
+          "type" : "keyword"
+        },
+        "structure" :{
+          "type" : "keyword"
+        },
+        "energy" : {
+          "type" : "keyword"
+        },
+        "tags": {
+          "type" : "text"
+        },
+        "image":{
+          "type" : "keyword"
+        },
+        "price" :{
+          "type" : "double"
+        },
+        "suggest": {
+          "type": "completion"
+        }
+      }
+    }
+  }
+}

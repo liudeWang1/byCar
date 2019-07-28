@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>全款计算器</title>
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+    <style>
+        .between {
+            /*width: 50%;*/
+            /*display: inline-block;*/
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .between div {
+            width: 45%;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<!--logo-->
+<div style="width: 100%;height: 100px">
+    <div style="margin-left: 100px;padding-top: 25px">
+        <img src="http://www.carguide.com.cn/statics/images/pc/logo.png">
+    </div>
+</div>
+
+<!--导航条部分-->
+<div>
+    <ul class="layui-nav " lay-filter="" style="padding-left: 15%">
+        <li class="layui-nav-item"><a href="/car/index">首页</a></li>
+        <li class="layui-nav-item "><a href="/car/to_list">选车</a></li>
+        <li class="layui-nav-item layui-this"><a href="/car/calcq">购车计算器</a></li>
+        <li class="layui-nav-item"><a href="/essay/list">汽车知识大讲堂</a></li>
+        <li class="layui-nav-item" style="width: 16%;margin-right: 10%"><a href="/car/about">联系我们</a></li>
+    </ul>
+</div>
+
+
+<div style="text-align: center;margin:0 auto;width: 900px">
+
+    <table class="layui-table">
+        <colgroup>
+            <col width="200">
+            <col width="400">
+            <col width="200">
+            <col width="400">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>款项</th>
+            <th>选项</th>
+            <th>金额</th>
+            <th>说明</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!--th:text="${car.price}"-->
+        <tr>
+            <td>裸车价</td>
+            <td></td>
+            <td><input type="text" name="ipt" id="money" style="width: 100px;"/>元</td>
+        </tr>
+        <tr>
+            <td>购置税</td>
+            <td></td>
+            <td><span id="gzs"></span>元</td>
+            <td>购置税＝购车款/(1+16%)×购置税率(10%)</td>
+        </tr>
+        <tr>
+            <td>上牌费用</td>
+            <td></td>
+            <td>500元</td>
+            <td>通常商家提供的一条龙服务收费约500元，个人办理约 373元，其中工商验证、出库150元、移动证30元、环保卡3元、拓号费40元、行驶证相片20元、托盘费130元</td>
+        </tr>
+        <tr>
+            <td>车船使用税</td>
+            <td>
+                <div class="between">
+                    <div><input type="radio" onclick="che(300)" name="chechuan"
+                                value="300">1.0L（含）以下
+                    </div>
+                    </label>
+                    <div><input type="radio" onclick="che(420)" name="chechuan"
+                                value="420">1.0-1.6L（含）
+                    </div>
+                    </label>
+                    <div><input type="radio" onclick="che(480)" name="chechuan"
+                                value="480">1.6-2.0L(含）
+                    </div>
+                    </label>
+                    <div><input type="radio" onclick="che(900)" name="chechuan"
+                                value="900">2.0-2.5L（含）
+                    </div>
+                    </label>
+                    <div><input type="radio" onclick="che(1920)" name="chechuan" value="1920">2.5-3.0L（含）</div>
+                    </label>
+                    <div><input type="radio" onclick="che(3480)" name="chechuan"
+                                value="3480">3.0-4.0L（含
+                    </div>
+                    </label>
+                    <div><input type="radio" onclick="che(5280)" name="chechuan"
+                                value="5280">4.0以上
+                    </div>
+                    </label></div>
+
+            </td>
+            <td><span id="cc"></span>元</td>
+            <td>车船使用税是对行驶于公共道路的车辆和航行于国内河流、湖泊或领海口岸的船舶,按照其种类(如机动车辆、非机动车辆、载人汽车、载货汽车等)、吨位和规定的税额计算征收的一种使用行为税。</td>
+        </tr>
+        <tr>
+            <td>交通事故责任强制保险</td>
+            <td>
+               <input type="radio" name="qzx" onclick="qz(950)">6座
+               <input type="radio" name="qzx" onclick="qz(1100)">6座以上
+            </td>
+            <td><span id="qzx"></span>元</td>
+            <td>家用6座以下950元/年，家用6座及以上1100元/年</td>
+        </tr>
+
+        <tr>
+            <td>第三者责任险</td>
+            <td>
+                <input type="radio" name="sz" onclick="sz(516)">5万
+                <input type="radio" name="sz" onclick="sz(746)">10万
+                <input type="radio" name="sz" onclick="sz(924)">20万
+                <input type="radio" name="sz" onclick="sz(1252)">50万
+                <input type="radio" name="sz" onclick="sz(1630)">100万
+            </td>
+            <td><span id="dsz"></span>元</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>车辆损失险</td>
+            <td></td>
+            <td><span id="ssx"></span>元</td>
+            <td>基础保费+裸车价格×1.0880%</td>
+        </tr>
+        <tr>
+            <td>全车盗抢险</td>
+            <td></td>
+            <td><span id="dqx"></span>元</td>
+            <td>基础保费+裸车价格×费率</td>
+        </tr>
+        <tr>
+            <td>玻璃单独破碎险</td>
+            <td></td>
+            <td><span id="blx"></span>元</td>
+            <td>进口新车购置价×0.25%，国产新车购置价×0.15%</td>
+        </tr>
+        <tr>
+            <td>自燃损失险</td>
+            <td></td>
+            <td><span id="zrx"></span>元</td>
+            <td>新车购置价×0.15%</td>
+        </tr>
+        <tr>
+            <td>不计免赔特约险</td>
+            <td></td>
+            <td><span id="tyx"></span>元</td>
+            <td>(车辆损失险+第三者责任险)×20%</td>
+        </tr>
+        <tr>
+            <td>无过责任险</td>
+            <td></td>
+            <td><span id="wgx"></span>元</td>
+            <td>第三者责任险保险费×20%</td>
+        </tr>
+        <tr>
+            <td>车上人员责任险</td>
+            <td></td>
+            <td><span id="ryx">50</span>元</td>
+            <td>保险车辆发生意外事故导致车上司机或乘客人员伤亡造成的费用损失，以及为减少损失而支付的必要合理的施救、保护费用，由保险公司承担赔偿责任。</td>
+        </tr>
+        <tr>
+            <td>车身划痕险</td>
+            <td></td>
+            <td><span id="hhx">570</span>元</td>
+            <td>车身划痕险 无明显碰撞痕迹的车身划痕损失，保险公司负责赔偿。</td>
+        </tr>
+        <tr>
+            <td>涉水险</td>
+            <td></td>
+            <td><span id="shex"></span>元</td>
+            <td>车价 × 0.075%</td>
+        </tr>
+        </tbody>
+    </table>
+    <p style="font-size: 26px ;float: left">预计总共花费：<span id="total"></span>元</p>
+    <a style="float: right" href="/car/calcf" class="layui-btn">我要分期</a>
+
+</div>
+
+<script>
+
+    var ssx = 0;
+    var gzs = 0;
+    var cc = 0;
+    var qzx = 0;
+    var dsz = 0;
+    var dqx = 0;
+    var blx = 0;
+    var zrx = 0;
+    var shex = 0;
+
+    $("#money").bind('input propertychange', function () {
+        gzs = ($("#money").val() / (1 + 0.16) * 0.1).toFixed(0)
+        $("#gzs").html(gzs);
+        var dsz = $("#dsz").val();
+        ssx = (460+$("#money").val()*1.088*0.01).toFixed(0)
+        $("#ssx").html(ssx);
+        dqx = (460+$("#money").val()*0.46*0.01).toFixed(0);
+        $("#dqx").html(dqx);
+        blx = ($("#money").val()*0.15*0.01).toFixed(0);
+        $("#blx").html(blx);
+        zrx = ($("#money").val()*0.15*0.01).toFixed(0);
+        $("#zrx").html(zrx);
+        shex = ($("#money").val()*0.075*0.01).toFixed(0);
+        $("#shex").html(shex);
+    });
+
+
+
+    function che(e) {
+        cc = parseInt(e);
+        $("#cc").html(e)
+    };
+    function qz(e) {
+        qzx = parseInt(e);
+        $("#qzx").html(e)
+    };
+    function sz(e) {
+        dsz = parseInt(e);
+        $("#dsz").html(e);
+        var tyx = ((parseInt(ssx)+parseInt(e))*0.2).toFixed(0);
+        $("#tyx").html(tyx);
+        var wgx = (parseInt(e)*0.2).toFixed(0);
+        $("#wgx").html(wgx);
+        var money = $("#money").val();
+        console.log("money:"+money);
+
+        console.log("qzx:"+qzx);
+
+        console.log("dsz:"+dsz);
+
+        console.log("dqx:"+dqx);
+
+        console.log("blx:"+blx);
+
+        console.log("zrx:"+zrx);
+
+        console.log("shex:"+shex);
+
+        $("#total").html(parseInt(money)+parseInt(gzs)+500+parseInt(cc)+parseInt(qzx)+parseInt(dsz)+parseInt(ssx)+parseInt(dqx)+parseInt(blx)+parseInt(zrx)+parseInt(tyx)+parseInt(wgx)+50+570+parseInt(shex));
+    };
+
+
+
+</script>
+</body>
+</html>

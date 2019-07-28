@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>新增汽车</title>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+    <script th:src="@{/js/jquery.min.js}" rel="script"></script>
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+        layui.use('form', function () {
+            var form = layui.form;
+
+            form.on('submit(sub)', function (data) {
+                $.ajax({
+                    url: "/car/addCar",
+                    type: "POST",
+                    data: {
+                        name: $("#name").val(),
+                        firm: $("#firm").val(),
+                        year: $("#year").val(),
+                        engine: $("#engine").val(),
+                        horsepower: $("#horsepower").val(),
+                        gearbox: $("#gearbox").val(),
+                        torque: $("#torque").val(),
+                        size: $("#size").val(),
+                        weight: $("#weight").val(),
+                        structure: $("#structure").val(),
+                        energy: $("#energy").val(),
+                        emissions: $("#emissions").val(),
+                        oil: $("#oil").val(),
+                        price: $("#price").val(),
+                        carOil: $("#carOil").val(),
+                        carSpace: $("#carSpace").val(),
+                        carHold: $("#carHold").val(),
+
+                    },
+                    success: function (data) {
+                        layer.closeAll();
+                        console.log(data);
+                        if (data.code == 0) {
+                            layer.msg("新增成功");
+                            window.location.href = "/admin/car_list";
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.closeAll();
+                    }
+                });
+                return false;
+            })
+            //各种基于事件的操作，下面会有进一步介绍
+        });
+        layui.use('upload', function () {
+            var upload = layui.upload;
+
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#test1' //绑定元素
+                , url: '/admin/qiniu' //上传接口
+                , done: function () {
+                    //上传完毕回调
+                    console.log("success");
+                    layer.msg("上传成功")
+                }
+                , error: function () {
+                    //请求异常回调
+                    layer.msg("上传失败");
+                    return false;
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+<form class="layui-form" id="carForm"><!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">厂商</label>
+        <div class="layui-input-block">
+            <input type="text" name="firm" id="firm" placeholder="请输入厂商" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">车名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" id="name" placeholder="请输入车名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">年份</label>
+        <div class="layui-input-block">
+            <select name="year" id="year" lay-filter="aihao">
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">发动机</label>
+        <div class="layui-input-block">
+            <input type="text" name="engine" id="engine" placeholder="请输入发动机参数" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">马力</label>
+        <div class="layui-input-block">
+            <input type="text" name="horsepower" id="horsepower" placeholder="请输入马力" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">变速箱</label>
+        <div class="layui-input-block">
+            <input type="text" name="gearbox" id="gearbox" placeholder="请输入变速箱" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">扭矩</label>
+        <div class="layui-input-block">
+            <input type="text" name="torque" id="torque" placeholder="请输入扭矩" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">长宽高</label>
+        <div class="layui-input-block">
+            <input type="text" name="size" id="size" placeholder="请输入长宽高" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">整备质量</label>
+        <div class="layui-input-block">
+            <input type="text" name="weight" id="weight" placeholder="请输入质量" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">车身结构</label>
+        <div class="layui-input-block">
+            <select name="structure" id="structure" lay-filter="aihao">
+                <option value="SUV">SUV</option>
+                <option value="MPV">MPV</option>
+                <option value="三厢车">三厢车</option>
+                <option value="两厢车">两厢车</option>
+                <option value="皮卡">皮卡</option>
+                <option value="跑车">跑车</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">能源类型</label>
+        <div class="layui-input-block">
+            <select name="energy" id="energy" lay-filter="aihao">
+                <option value="汽油">汽油</option>
+                <option value="柴油">柴油</option>
+                <option value="油电混合">油电混合</option>
+                <option value="纯电动">纯电动</option>
+                <option value="插电混合">插电混合</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">排放标准</label>
+        <div class="layui-input-block">
+            <input type="text" name="emissions" id="emissions" placeholder="请输入排放标准" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">油耗</label>
+        <div class="layui-input-block">
+            <input type="text" name="oil" id="oil" placeholder="请输入油耗" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格</label>
+        <div class="layui-input-block">
+            <input type="text" name="price" id="price" placeholder="请输入价格" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">油耗表现</label>
+        <div class="layui-input-block">
+            <select name="carOil" id="carOil" lay-filter="aihao">
+                <option value="9">9</option>
+                <option value="8">8</option>
+                <option value="7">7</option>
+                <option value="6">6</option>
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">空间表现</label>
+        <div class="layui-input-block">
+            <select name="carSpace" id="carSpace" lay-filter="aihao">
+                <option value="9">9</option>
+                <option value="8">8</option>
+                <option value="7">7</option>
+                <option value="6">6</option>
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">操控性</label>
+        <div class="layui-input-block">
+            <select name="carHold" id="carHold" lay-filter="aihao">
+                <option value="9">9</option>
+                <option value="8">8</option>
+                <option value="7">7</option>
+                <option value="6">6</option>
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <button type="button" class="layui-btn" id="test1">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+        </button>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+
+</body>
+</html>

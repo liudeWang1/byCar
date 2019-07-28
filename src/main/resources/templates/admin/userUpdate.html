@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+</head>
+<body>
+
+<form id="essayForm">
+
+    <div style="visibility: hidden">
+        <input type="text" name="userId" id="userId"  th:attr="value=${user.id}" autocomplete="off" class="layui-input"></span>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-block">
+            <input type="text" name="tel" id="tel"  th:attr="value=${user.tel}" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" id="username" th:attr="value=${user.username}" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <select name="role" id="role" lay-filter="aihao">
+                <option value="0">普通用户</option>
+                <option value="1">管理员</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="summernote">
+
+    </div>
+    <input type="hidden" name="content" lay-filter="subm"/>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="sub">立即修改</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+</body>
+<script>
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+    layui.use('form', function () {
+        var form = layui.form;
+
+        form.on('submit(sub)', function (data) {
+            var userId = $("#userId").val();
+            var url = '/admin/user_doUpdate/'+userId;
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    username: $("#username").val(),
+                    role: $("#role").val(),
+                    tel: $("#tel").val()
+                },
+                success: function (data) {
+                    layer.closeAll();
+                    console.log(data);
+
+                    layer.msg("修改成功");
+                    window.location.href = "/admin/user_manage";
+
+                },
+                error: function () {
+                    layer.closeAll();
+                }
+            });
+            return false;
+        })
+        //各种基于事件的操作，下面会有进一步介绍
+    });
+</script>
+</html>

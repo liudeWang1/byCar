@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery.min.js}" rel="script"></script>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+
+
+</head>
+<body >
+
+<table id="demo" lay-filter="test"></table>
+
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,height: 312
+            ,url: '/car/search' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'name', title: '车名', width:80, sort: true, fixed: 'left'}
+                ,{field: 'price', title: '价格', width:80}
+
+            ]]
+        });
+
+    });
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layui.js}" rel="script"></script>
+    <style type="text/css">
+        .x-iframe{
+            width: 100%;
+            height: 100%;
+        }
+        .layui-tab-item{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-bg-black layui-header">
+        <div class="layui-logo">汽车导购 管理后台</div>
+        <!--<ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">导航一</a></li>
+            <li class="layui-nav-item layui-this">
+                <a href="javascript:;">导航二</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="" >选项1</a></dd>
+                    <dd><a href="" >选项2</a></dd>
+                    <dd><a href="" >选项3</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">导航三</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">导航四</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">选项一</a></dd>
+                    <dd><a href="">选项二</a></dd>
+                    <dd><a href="">选项三</a></dd>
+                    <dd class="layui-this"><a href="">选项四</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">社区</a></li>
+        </ul>-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item" lay-unselect="">
+                <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;">安全管理</a></dd>
+                    <dd><a href="/admin/login_out">退了</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item"><a _href="/admin/user_manage"><cite>用户管理</cite></a></li>
+                <li class="layui-nav-item"><a _href="/admin/car_list"><cite>汽车管理</cite></a></li>
+                <li class="layui-nav-item"><a _href="/admin/car_manage"><cite>新增汽车</cite></a></li>
+                <li class="layui-nav-item"><a _href="/admin/essay_list"><cite>文章管理</cite></a></li>
+                <li class="layui-nav-item"><a _href="/admin/essay_manage"><cite>发布文章</cite></a></li>
+                <li class="layui-nav-item"><a _href="/admin/showECharts"><cite>搜索排行</cite></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="layui-tab tab" lay-filter="mainTab" lay-allowclose="false" style="height: 100%;">
+            <ul class="layui-tab-title">
+                <li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100%;">
+                <div class="layui-tab-item layui-show" style="height: 100%;">
+                    <iframe src='' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        @ 汽车导购 power by maxwang
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    $(function(){
+        //JavaScript代码区域
+        layui.use('element', function(){
+            var element = layui.element;
+
+
+            $(".layui-nav-tree li").click(function(event){
+                var url = $(this).children('a').attr('_href');
+                var title = $(this).find('cite').html();
+                var index  = $('.layui-nav-tree li').index($(this));
+                //遍历打开的窗口，如果当前点击的选项已经打开，则跳转到对应窗口去，不再执行for外面的两条语句，创建新窗口
+                for (var i = 0; i <$('.x-iframe').length; i++) {
+                    if($('.x-iframe').eq(i).attr('tab-id')==index+1){
+                        tab.tabChange(index+1);
+                        event.stopPropagation();
+                        return;
+                    }
+                };
+                tab.tabAdd(title,url,index+1);
+                tab.tabChange(index+1);
+            });
+
+            //点击新增子页面
+            var tab = {
+                tabAdd:function(title,url,id){
+                    element.tabAdd('mainTab',{
+                        title: title,//用于演示
+                        content: '<iframe tab-id="'+id+'" frameborder="0" src="'+url+'" scrolling="yes" class="x-iframe"></iframe>',
+                        id: id //实际使用一般是规定好的id，这里以时间戳模拟下
+                    })
+                },
+                tabDelete:function(othis){
+                    element.tabDelete('mainTab',id);
+                    othis.addClass('layui-btn-disabled');
+                },
+                tabChange:function(id){
+                    //切换到指定Tab项
+                    element.tabChange('mainTab', id); //切换到：用户管理
+                }
+            };
+        });
+
+    })
+
+</script>

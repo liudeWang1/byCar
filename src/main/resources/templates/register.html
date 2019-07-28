@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>注册</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+</head>
+<body>
+
+<form name="registerForm" id="registerForm" method="post"  style="width:50%; margin:0 auto">
+
+    <h2 style="text-align:center; margin-bottom: 20px">用户注册</h2>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">手机号</label>
+            <div class="col-md-5">
+                <input id="tel" name = "tel" class="form-control" type="text" placeholder="请输入手机号" required="true"  minlength="11" maxlength="11" />
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">用户名</label>
+            <div class="col-md-5">
+                <input id="username" name = "username" class="form-control" type="text" placeholder="请输入用户名" required="true"  minlength="3" maxlength="11" />
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">密码</label>
+            <div class="col-md-5">
+                <input id="password" name="password" class="form-control" type="password"  placeholder="请输入密码" required="true" minlength="6" maxlength="16" />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">确认密码</label>
+            <div class="col-md-5">
+                <input id="repass" name="repass" class="form-control" type="password"  placeholder="输入确认密码" required="true" equalTo="#password" minlength="6" maxlength="16" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5" style="width:38%; margin:0 auto">
+            <button class="btn btn-primary btn-block" type="reset" >重置</button>
+        </div>
+        <div class="col-md-5" style="width:38%; margin:0 auto">
+            <button class="btn btn-primary btn-block" type="submit" onclick="register()">注册</button>
+        </div>
+    </div>
+
+</form>
+</body>
+<script>
+    function register(){
+        $("#registerForm").validate({
+            submitHandler:function(form){
+                doRegister();
+            }
+        });
+    }
+
+    function doRegister(){
+        g_showLoading();
+
+        var inputPass = $("#password").val();
+        var salt = g_passsword_salt;
+        var str = " "+salt.charAt(0)+salt.charAt(2) + inputPass +salt.charAt(4) + salt.charAt(5);
+        var password = md5(str);
+
+        console.log(password);
+
+        $.ajax({
+            url: "/do_register",
+            type: "POST",
+            data:{
+                password: password,
+                username: $("#username").val(),
+                tel: $("#tel").val()
+            },
+            success:function(data){
+                layer.closeAll();
+                console.log(data);
+                if(data.code == 0){
+                    layer.msg("注册成功");
+                    window.location.href="/to_login";
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(){
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+</html>
